@@ -53,10 +53,10 @@ function buildTools(base: string) {
       type: "client", name: "showJob", description: "Show the newly created job on the dashboard.",
       expects_response: true,
       parameters: { type: "object", required: ["jobId"], properties: { jobId } },
-    },
-  ];
+     },
+  ]; 
 }
-
+ 
 async function api<T>(path: string, method = "GET", body?: unknown): Promise<T> {
   const response = await fetch("https://api.elevenlabs.io/v1/convai" + path, {
     method,
