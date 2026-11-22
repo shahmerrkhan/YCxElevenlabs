@@ -11,3 +11,5 @@ These files are committed and this repo is public.
 They may belong to other people, to be taken down after the hackathon.
 
 Check with `npm run inputs`.
+
+These photos were downloaded once from Pinterest for the hackathon demo, to be removed after.
