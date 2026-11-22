@@ -1,0 +1,384 @@
+{
+  "words": [
+    {
+      "word": "Three",
+      "start": 0,
+      "end": 0.244
+    },
+    {
+      "word": "midterms",
+      "start": 0.29,
+      "end": 0.697
+    },
+    {
+      "word": "this",
+      "start": 0.731,
+      "end": 0.848
+    },
+    {
+      "word": "week",
+      "start": 0.906,
+      "end": 1.149
+    },
+    {
+      "word": "and",
+      "start": 1.207,
+      "end": 1.277
+    },
+    {
+      "word": "you’ve",
+      "start": 1.323,
+      "end": 1.486
+    },
+    {
+      "word": "got",
+      "start": 1.509,
+      "end": 1.648
+    },
+    {
+      "word": "zero",
+      "start": 1.73,
+      "end": 2.09
+    },
+    {
+      "word": "idea",
+      "start": 2.171,
+      "end": 2.484
+    },
+    {
+      "word": "where",
+      "start": 2.554,
+      "end": 2.693
+    },
+    {
+      "word": "to",
+      "start": 2.716,
+      "end": 2.763
+    },
+    {
+      "word": "start.",
+      "start": 2.821,
+      "end": 3.332
+    },
+    {
+      "word": "Your",
+      "start": 3.773,
+      "end": 3.924
+    },
+    {
+      "word": "desk",
+      "start": 3.97,
+      "end": 4.191
+    },
+    {
+      "word": "is",
+      "start": 4.237,
+      "end": 4.319
+    },
+    {
+      "word": "a",
+      "start": 4.365,
+      "end": 4.388
+    },
+    {
+      "word": "mountain",
+      "start": 4.47,
+      "end": 4.748
+    },
+    {
+      "word": "of",
+      "start": 4.795,
+      "end": 4.841
+    },
+    {
+      "word": "PDFs",
+      "start": 4.899,
+      "end": 5.433
+    },
+    {
+      "word": "and",
+      "start": 5.479,
+      "end": 5.572
+    },
+    {
+      "word": "scribbled",
+      "start": 5.654,
+      "end": 6.013
+    },
+    {
+      "word": "slides",
+      "start": 6.037,
+      "end": 6.408
+    },
+    {
+      "word": "you",
+      "start": 6.443,
+      "end": 6.513
+    },
+    {
+      "word": "haven’t",
+      "start": 6.571,
+      "end": 6.791
+    },
+    {
+      "word": "looked",
+      "start": 6.815,
+      "end": 7.024
+    },
+    {
+      "word": "at",
+      "start": 7.058,
+      "end": 7.163
+    },
+    {
+      "word": "since",
+      "start": 7.221,
+      "end": 7.43
+    },
+    {
+      "word": "class.",
+      "start": 7.453,
+      "end": 8.15
+    },
+    {
+      "word": "Just",
+      "start": 8.661,
+      "end": 8.881
+    },
+    {
+      "word": "snap",
+      "start": 8.939,
+      "end": 9.218
+    },
+    {
+      "word": "a",
+      "start": 9.264,
+      "end": 9.288
+    },
+    {
+      "word": "photo",
+      "start": 9.334,
+      "end": 9.729
+    },
+    {
+      "word": "or",
+      "start": 9.845,
+      "end": 9.949
+    },
+    {
+      "word": "drop",
+      "start": 10.019,
+      "end": 10.228
+    },
+    {
+      "word": "the",
+      "start": 10.286,
+      "end": 10.356
+    },
+    {
+      "word": "file",
+      "start": 10.39,
+      "end": 10.716
+    },
+    {
+      "word": "into",
+      "start": 10.75,
+      "end": 10.913
+    },
+    {
+      "word": "Kiln",
+      "start": 10.983,
+      "end": 11.377
+    },
+    {
+      "word": "and",
+      "start": 11.459,
+      "end": 11.551
+    },
+    {
+      "word": "let",
+      "start": 11.598,
+      "end": 11.702
+    },
+    {
+      "word": "it",
+      "start": 11.737,
+      "end": 11.807
+    },
+    {
+      "word": "turn",
+      "start": 11.83,
+      "end": 12.004
+    },
+    {
+      "word": "everything",
+      "start": 12.086,
+      "end": 12.527
+    },
+    {
+      "word": "into",
+      "start": 12.562,
+      "end": 12.689
+    },
+    {
+      "word": "flashcards.",
+      "start": 12.736,
+      "end": 13.676
+    },
+    {
+      "word": "It",
+      "start": 14.373,
+      "end": 14.512
+    },
+    {
+      "word": "builds",
+      "start": 14.558,
+      "end": 14.884
+    },
+    {
+      "word": "exam‑style",
+      "start": 14.93,
+      "end": 15.627
+    },
+    {
+      "word": "quizzes",
+      "start": 15.673,
+      "end": 16.126
+    },
+    {
+      "word": "and",
+      "start": 16.184,
+      "end": 16.277
+    },
+    {
+      "word": "pushes",
+      "start": 16.335,
+      "end": 16.613
+    },
+    {
+      "word": "the",
+      "start": 16.66,
+      "end": 16.73
+    },
+    {
+      "word": "cards",
+      "start": 16.764,
+      "end": 17.055
+    },
+    {
+      "word": "you",
+      "start": 17.089,
+      "end": 17.159
+    },
+    {
+      "word": "miss",
+      "start": 17.229,
+      "end": 17.473
+    },
+    {
+      "word": "back",
+      "start": 17.565,
+      "end": 17.751
+    },
+    {
+      "word": "into",
+      "start": 17.798,
+      "end": 17.937
+    },
+    {
+      "word": "the",
+      "start": 17.983,
+      "end": 18.053
+    },
+    {
+      "word": "mix",
+      "start": 18.088,
+      "end": 18.285
+    },
+    {
+      "word": "faster.",
+      "start": 18.343,
+      "end": 19.075
+    },
+    {
+      "word": "Drop",
+      "start": 19.771,
+      "end": 20.004
+    },
+    {
+      "word": "tonight’s",
+      "start": 20.062,
+      "end": 20.34
+    },
+    {
+      "word": "lecture",
+      "start": 20.398,
+      "end": 20.735
+    },
+    {
+      "word": "into",
+      "start": 20.77,
+      "end": 20.932
+    },
+    {
+      "word": "Kiln,",
+      "start": 20.99,
+      "end": 21.489
+    },
+    {
+      "word": "quiz",
+      "start": 21.64,
+      "end": 21.838
+    },
+    {
+      "word": "yourself,",
+      "start": 21.896,
+      "end": 22.349
+    },
+    {
+      "word": "and",
+      "start": 22.372,
+      "end": 22.465
+    },
+    {
+      "word": "try",
+      "start": 22.511,
+      "end": 22.639
+    },
+    {
+      "word": "to",
+      "start": 22.685,
+      "end": 22.732
+    },
+    {
+      "word": "fall",
+      "start": 22.766,
+      "end": 22.929
+    },
+    {
+      "word": "asleep",
+      "start": 22.987,
+      "end": 23.277
+    },
+    {
+      "word": "with",
+      "start": 23.324,
+      "end": 23.44
+    },
+    {
+      "word": "the",
+      "start": 23.463,
+      "end": 23.533
+    },
+    {
+      "word": "answers",
+      "start": 23.579,
+      "end": 23.927
+    },
+    {
+      "word": "fresh.",
+      "start": 23.974,
+      "end": 24.659
+    }
+  ]
+}

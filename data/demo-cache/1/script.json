@@ -1,0 +1,25 @@
+{
+  "hook": {
+    "say": "Three midterms this week and you’ve got zero idea where to start.",
+    "show": "Three midterms, no plan"
+  },
+  "beats": [
+    {
+      "say": "Your desk is a mountain of PDFs and scribbled slides you haven’t looked at since class.",
+      "show": "Pile of unread notes"
+    },
+    {
+      "say": "Just snap a photo or drop the file into Kiln and let it turn everything into flashcards.",
+      "show": "Upload to Kiln"
+    },
+    {
+      "say": "It builds exam‑style quizzes and pushes the cards you miss back into the mix faster.",
+      "show": "Smart quizzes"
+    },
+    {
+      "say": "Drop tonight’s lecture into Kiln, quiz yourself, and try to fall asleep with the answers fresh.",
+      "show": "Quiz before bed"
+    }
+  ],
+  "caption": "midterm hustle, anyone?"
+}

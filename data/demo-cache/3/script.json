@@ -1,0 +1,25 @@
+{
+  "hook": {
+    "say": "Staring at pages of lecture notes you are never going to open again doesn't count as studying.",
+    "show": "stop rereading notes"
+  },
+  "beats": [
+    {
+      "say": "You just reread the same paragraph four times and still retain nothing.",
+      "show": "retaining nothing"
+    },
+    {
+      "say": "Drop those typed pages or lecture slides right into Kiln instead.",
+      "show": "drop slides into Kiln"
+    },
+    {
+      "say": "It turns them into actual flashcards and quiz questions that test you like the real exam.",
+      "show": "exam style questions"
+    },
+    {
+      "say": "Drop tonight's lecture notes into Kiln and quiz yourself before bed.",
+      "show": "quiz yourself tonight"
+    }
+  ],
+  "caption": "honestly just do this"
+}

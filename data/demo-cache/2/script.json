@@ -1,0 +1,25 @@
+{
+  "hook": {
+    "say": "If you are still just rereading your notes at eleven pm, you are honestly wasting so much time.",
+    "show": "Stop rereading notes"
+  },
+  "beats": [
+    {
+      "say": "You stare at pages you will never open again and then completely blank when the midterm hits.",
+      "show": "Blanking on exams"
+    },
+    {
+      "say": "Drop your slides or a photo of your handwriting into Kiln instead.",
+      "show": "Drop notes in Kiln"
+    },
+    {
+      "say": "It turns your actual class stuff into flashcards and quizzes that actually feel like real test questions.",
+      "show": "Real exam questions"
+    },
+    {
+      "say": "Drop tonight's lecture notes into Kiln and quiz yourself before bed.",
+      "show": "Quiz yourself tonight"
+    }
+  ],
+  "caption": "good luck surviving midterms"
+}

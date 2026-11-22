@@ -1,0 +1,379 @@
+{
+  "words": [
+    {
+      "word": "If",
+      "start": 0,
+      "end": 0.116
+    },
+    {
+      "word": "you",
+      "start": 0.151,
+      "end": 0.221
+    },
+    {
+      "word": "are",
+      "start": 0.267,
+      "end": 0.36
+    },
+    {
+      "word": "still",
+      "start": 0.395,
+      "end": 0.604
+    },
+    {
+      "word": "just",
+      "start": 0.673,
+      "end": 0.836
+    },
+    {
+      "word": "rereading",
+      "start": 0.882,
+      "end": 1.266
+    },
+    {
+      "word": "your",
+      "start": 1.3,
+      "end": 1.405
+    },
+    {
+      "word": "notes",
+      "start": 1.463,
+      "end": 1.718
+    },
+    {
+      "word": "at",
+      "start": 1.753,
+      "end": 1.811
+    },
+    {
+      "word": "eleven",
+      "start": 1.869,
+      "end": 2.171
+    },
+    {
+      "word": "pm,",
+      "start": 2.241,
+      "end": 2.821
+    },
+    {
+      "word": "you",
+      "start": 3.065,
+      "end": 3.146
+    },
+    {
+      "word": "are",
+      "start": 3.193,
+      "end": 3.297
+    },
+    {
+      "word": "honestly",
+      "start": 3.344,
+      "end": 3.704
+    },
+    {
+      "word": "wasting",
+      "start": 3.75,
+      "end": 4.098
+    },
+    {
+      "word": "so",
+      "start": 4.18,
+      "end": 4.331
+    },
+    {
+      "word": "much",
+      "start": 4.389,
+      "end": 4.563
+    },
+    {
+      "word": "time.",
+      "start": 4.621,
+      "end": 5.108
+    },
+    {
+      "word": "You",
+      "start": 5.712,
+      "end": 5.828
+    },
+    {
+      "word": "stare",
+      "start": 5.886,
+      "end": 6.083
+    },
+    {
+      "word": "at",
+      "start": 6.118,
+      "end": 6.176
+    },
+    {
+      "word": "pages",
+      "start": 6.211,
+      "end": 6.571
+    },
+    {
+      "word": "you",
+      "start": 6.606,
+      "end": 6.675
+    },
+    {
+      "word": "will",
+      "start": 6.71,
+      "end": 6.826
+    },
+    {
+      "word": "never",
+      "start": 6.884,
+      "end": 7.082
+    },
+    {
+      "word": "open",
+      "start": 7.151,
+      "end": 7.372
+    },
+    {
+      "word": "again",
+      "start": 7.418,
+      "end": 7.697
+    },
+    {
+      "word": "and",
+      "start": 7.767,
+      "end": 7.86
+    },
+    {
+      "word": "then",
+      "start": 7.906,
+      "end": 8.069
+    },
+    {
+      "word": "completely",
+      "start": 8.138,
+      "end": 8.545
+    },
+    {
+      "word": "blank",
+      "start": 8.603,
+      "end": 8.881
+    },
+    {
+      "word": "when",
+      "start": 8.916,
+      "end": 9.021
+    },
+    {
+      "word": "the",
+      "start": 9.044,
+      "end": 9.113
+    },
+    {
+      "word": "midterm",
+      "start": 9.137,
+      "end": 9.485
+    },
+    {
+      "word": "hits.",
+      "start": 9.531,
+      "end": 10.077
+    },
+    {
+      "word": "Drop",
+      "start": 10.588,
+      "end": 10.808
+    },
+    {
+      "word": "your",
+      "start": 10.867,
+      "end": 10.983
+    },
+    {
+      "word": "slides",
+      "start": 11.017,
+      "end": 11.447
+    },
+    {
+      "word": "or",
+      "start": 11.493,
+      "end": 11.563
+    },
+    {
+      "word": "a",
+      "start": 11.621,
+      "end": 11.644
+    },
+    {
+      "word": "photo",
+      "start": 11.691,
+      "end": 11.958
+    },
+    {
+      "word": "of",
+      "start": 12.016,
+      "end": 12.074
+    },
+    {
+      "word": "your",
+      "start": 12.109,
+      "end": 12.213
+    },
+    {
+      "word": "handwriting",
+      "start": 12.271,
+      "end": 12.759
+    },
+    {
+      "word": "into",
+      "start": 12.805,
+      "end": 12.956
+    },
+    {
+      "word": "Kiln",
+      "start": 13.026,
+      "end": 13.339
+    },
+    {
+      "word": "instead.",
+      "start": 13.398,
+      "end": 14.071
+    },
+    {
+      "word": "It",
+      "start": 14.512,
+      "end": 14.64
+    },
+    {
+      "word": "turns",
+      "start": 14.663,
+      "end": 14.86
+    },
+    {
+      "word": "your",
+      "start": 14.895,
+      "end": 15
+    },
+    {
+      "word": "actual",
+      "start": 15.046,
+      "end": 15.383
+    },
+    {
+      "word": "class",
+      "start": 15.441,
+      "end": 15.685
+    },
+    {
+      "word": "stuff",
+      "start": 15.72,
+      "end": 15.987
+    },
+    {
+      "word": "into",
+      "start": 16.045,
+      "end": 16.184
+    },
+    {
+      "word": "flashcards",
+      "start": 16.242,
+      "end": 16.939
+    },
+    {
+      "word": "and",
+      "start": 16.973,
+      "end": 17.055
+    },
+    {
+      "word": "quizzes",
+      "start": 17.113,
+      "end": 17.542
+    },
+    {
+      "word": "that",
+      "start": 17.589,
+      "end": 17.705
+    },
+    {
+      "word": "actually",
+      "start": 17.763,
+      "end": 18.146
+    },
+    {
+      "word": "feel",
+      "start": 18.192,
+      "end": 18.355
+    },
+    {
+      "word": "like",
+      "start": 18.39,
+      "end": 18.541
+    },
+    {
+      "word": "real",
+      "start": 18.587,
+      "end": 18.785
+    },
+    {
+      "word": "test",
+      "start": 18.843,
+      "end": 19.052
+    },
+    {
+      "word": "questions.",
+      "start": 19.098,
+      "end": 19.853
+    },
+    {
+      "word": "Drop",
+      "start": 20.549,
+      "end": 20.782
+    },
+    {
+      "word": "tonight's",
+      "start": 20.84,
+      "end": 21.141
+    },
+    {
+      "word": "lecture",
+      "start": 21.188,
+      "end": 21.467
+    },
+    {
+      "word": "notes",
+      "start": 21.501,
+      "end": 21.71
+    },
+    {
+      "word": "into",
+      "start": 21.745,
+      "end": 21.908
+    },
+    {
+      "word": "Kiln",
+      "start": 21.966,
+      "end": 22.279
+    },
+    {
+      "word": "and",
+      "start": 22.337,
+      "end": 22.43
+    },
+    {
+      "word": "quiz",
+      "start": 22.511,
+      "end": 22.686
+    },
+    {
+      "word": "yourself",
+      "start": 22.744,
+      "end": 23.034
+    },
+    {
+      "word": "before",
+      "start": 23.092,
+      "end": 23.347
+    },
+    {
+      "word": "bed.",
+      "start": 23.382,
+      "end": 23.916
+    }
+  ]
+}
