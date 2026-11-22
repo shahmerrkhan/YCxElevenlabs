@@ -1,7 +1,7 @@
 import express, { Router, type RequestHandler } from "express";
 import { ApiError } from "../core/errors.js";
+import { startPipeline } from "./pipeline.js";
 import type { JobStore } from "./store.js";
-import { startStubPipeline } from "./stub-pipeline.js";
 import { hasTranscripts } from "./transcripts.js";
 
 interface Deps {
@@ -22,7 +22,7 @@ export function createJobsRouter({ jobs, requireToolSecret }: Deps) {
     }
 
     const job = jobs.create(prompt.trim());
-    startStubPipeline(jobs, job.id);
+    startPipeline(jobs, job);
     res.status(202).json({ id: job.id, status: job.status });
   });
 

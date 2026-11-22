@@ -1,6 +1,7 @@
 import { randomUUID } from "node:crypto";
 import getJobMock from "../../mocks/get-job.json" with { type: "json" };
 import scheduleMock from "../../mocks/schedule.json" with { type: "json" };
+import type { ScriptParts } from "./script/checks.js";
 
 export type JobStatus =
   | "queued"
@@ -17,6 +18,7 @@ export interface Job {
   readonly prompt: string;
   readonly status: JobStatus;
   readonly script: string | null;
+  readonly scriptParts: ScriptParts | null; // for voice (S4) and video (S5), not in the response
   readonly caption: string | null; // for posting, not part of the GET /jobs/:id response
   readonly audioUrl: string | null;
   readonly videoUrl: string | null;
@@ -31,6 +33,7 @@ export function createJobStore() {
     status: "awaiting_approval",
     prompt: "[sample] seeded test job",
     caption: scheduleMock[0].caption,
+    scriptParts: null,
   };
   const jobs = new Map<string, Job>([[seed.id, seed]]);
 
@@ -45,6 +48,7 @@ export function createJobStore() {
       prompt,
       status: "queued",
       script: null,
+      scriptParts: null,
       caption: null,
       audioUrl: null,
       videoUrl: null,

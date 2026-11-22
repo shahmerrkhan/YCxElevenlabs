@@ -18,7 +18,7 @@ Not generalized. No "enter your URL" flow. No scraping at runtime.
 
 ## Stack (change only if the team agrees)
 - Backend: Node + TypeScript + Express in `backend/`, port 3000. Frontend: Next.js (App Router) + React + TypeScript in `frontend/`, port 3001, phone-first
-- Claude for script generation (ANTHROPIC_API_KEY)
+- Gemini for script generation (GEMINI_API_KEY), Groq as fallback (GROQ_API_KEY). Model order: SCRIPT_MODELS
 - ElevenLabs Agents (voice interface + tools), ElevenLabs TTS for voiceover
 - Unified posting API (Ayrshare or Late) for real posts; Composio optional add-on
 - ffmpeg for video assembly
@@ -51,6 +51,6 @@ Frontend: call screen (mascot + call button + transcript), dashboard
 - Plan first: before editing code, list the files you will touch, what changes, what could break, and open questions. Wait for the user's OK.
 - Keep it simple. This is a 4-hour demo, not a product.
 - Fake data must be labeled "sample" or "simulated" in the UI. Never claim it is real.
-- Secrets in .env only, never committed. Keys: ELEVENLABS_API_KEY, ANTHROPIC_API_KEY, DEMO_TOOL_SECRET, posting API key.
+- Secrets in .env only, never committed. Keys: ELEVENLABS_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, DEMO_TOOL_SECRET, posting API key.
 - Do not add features outside this file without asking the user.
 - Demo path comes first: one happy path that works every time beats many half features.
