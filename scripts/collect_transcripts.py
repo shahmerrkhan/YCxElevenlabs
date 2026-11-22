@@ -33,6 +33,24 @@ SOURCES = [
     "https://www.instagram.com/reel/DWwEQT0DWr6/",
     "https://www.instagram.com/reel/DVmUCyNjrLN/",
     "https://www.instagram.com/reel/DUeGJ0AkuqB/",
+    "https://www.tiktok.com/@answersai.com/video/7229829913279204650",
+    "https://www.tiktok.com/@blaiseeeeeeeeeeeee/video/7364159059232247086",
+    "https://www.tiktok.com/@mindgrasp.ai/video/7415222210836663583",
+    "https://www.tiktok.com/@christiaanhenny/video/7591581864226344214",
+    "https://www.tiktok.com/@thestudygirlyy/video/7480961478179425582",
+    "https://www.tiktok.com/@trixceo/video/7362815533470797062",
+    "https://www.tiktok.com/@kylekruegerr/video/7419105613629771039",
+    "https://www.tiktok.com/@elisempham/video/7332881143395634474",
+    "https://www.tiktok.com/@daniellecohn/video/7428676502436203806",
+    "https://www.tiktok.com/@neointech/video/7544084611001765138",
+    "https://www.youtube.com/shorts/ymjUQBIf854",
+    "https://www.tiktok.com/@getknowt/video/7308419585789889838",
+    "https://www.tiktok.com/@your.bummy.math.tutor/video/7366777576070745390",
+    "https://www.tiktok.com/@timmorrel/video/7356499744287427846",
+    "https://www.tiktok.com/@gizmo.ai/video/7172858389679066374",
+    "https://www.tiktok.com/@afifexp/video/7457126557325217031",
+    "https://www.tiktok.com/@getknowt/video/7193492207943355691",
+    "https://www.youtube.com/shorts/qnPg-FliKVA",
 ]
 
 
@@ -101,9 +119,15 @@ def fetch(url, folder):
     info = json.loads(yt_dlp("-J", "--", url))
     if reason := rejection(info, info.get("duration")):
         raise RuntimeError(reason)
-    yt_dlp("-f", "ba/b", "-o", str(folder / "audio.%(ext)s"), "--", url)
+    # TikTok's audio-only format is the attached sound, not the speech in the video,
+    # so there we take the smallest video and keep only its audio track.
+    picked = ("-f", "w[vcodec!=none]", "-x") if "tiktok.com/" in url else ("-f", "ba/b")
+    yt_dlp(*picked, "-o", str(folder / "audio.%(ext)s"), "--", url)
     audio = next(folder.glob("audio.*"))
     seconds = probe_seconds(audio)  # Instagram does not report a duration
+    expected = info.get("duration")
+    if expected and abs(seconds - expected) > 3:
+        raise RuntimeError(f"audio is {seconds:.0f}s but the video is {expected}s, wrong track")
     if reason := rejection(info, seconds):
         raise RuntimeError(reason)
     return info, audio, seconds
@@ -113,8 +137,8 @@ def collect():
     saved = saved_files()
     todo = [url for url in SOURCES if url not in saved]
     print(f"{len(SOURCES) - len(todo)} already done, {len(todo)} to do")
-    todo = todo[: max(0, MAX_FILES - len(saved))]
-    if not todo:
+    room = MAX_FILES - len(saved)
+    if not todo or room <= 0:
         return 0
 
     from faster_whisper import WhisperModel
@@ -129,6 +153,9 @@ def collect():
         model = WhisperModel(MODEL, device="cpu", compute_type="int8", cpu_threads=8, local_files_only=True)
 
         for url, download in zip(todo, downloads):
+            if room <= 0:
+                download.cancel()
+                continue
             try:
                 info, audio, seconds = download.result()
                 segments, _ = model.transcribe(str(audio), vad_filter=True, condition_on_previous_text=False)
@@ -141,6 +168,7 @@ def collect():
                 part = path.with_suffix(".part")
                 part.write_text(f"source: {url}\nviews: {'unknown' if views is None else views}\n{text}\n")
                 part.replace(path)
+                room -= 1
                 print(f"saved {path.name} | {seconds:.0f}s | views={views} | "
                       f"likes={info.get('like_count')} | {words} words | {url}", flush=True)
             except Exception as err:
