@@ -11,6 +11,7 @@
     "start": "tsx backend/core/server.ts",
     "inputs": "tsx backend/jobs/check-inputs.ts",
     "fallbacks": "tsx backend/jobs/script/make-fallbacks.ts",
+    "demo-cache:build": "tsx backend/jobs/demo-cache/build.ts",
     "voice-test": "tsx backend/jobs/voice/voice-test.ts",
     "typecheck": "tsc --noEmit"
   },
