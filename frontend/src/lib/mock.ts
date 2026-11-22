@@ -23,7 +23,7 @@ const accounts: Account[] = [
 ]
 
 const SCRIPT =
-  "[sample] Three midterms in one week and I hadn't opened my notes once. I dropped tonight's lecture into Kiln, it made me a quiz, and I got half of it wrong. Which, honestly, is the point."
+  "Three midterms in one week and I hadn't opened my notes once. I dropped tonight's lecture into Kiln, it made me a quiz, and I got half of it wrong. Which, honestly, is the point."
 
 type MockJob = { created: number; approvedAt: number | null }
 const jobs = new Map<string, MockJob>()
@@ -59,7 +59,7 @@ export const mock = {
       jobId: id,
       accountId: a.id,
       platform: a.platform,
-      caption: '[sample] three midterms, zero notes opened',
+      caption: 'three midterms, zero notes opened',
       postAt: new Date(now + (a.kind === 'real' ? 60_000 * i : 3_600_000 * (1 + (i % 48)))).toISOString(),
       status: 'scheduled',
       kind: a.kind,
@@ -83,7 +83,7 @@ export const mock = {
       status,
       script: has(['voicing', 'rendering']) || ready ? SCRIPT : null,
       audioUrl: ready ? jobSeed.audioUrl : null,
-      videoUrl: ready ? null : null, // the contract's example URL is a placeholder; the UI shows a sample preview
+      videoUrl: ready ? null : null, // the contract's example URL is a placeholder; the UI shows a script preview
       error: null,
     }
   },

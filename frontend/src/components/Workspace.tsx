@@ -7,7 +7,6 @@ import {
   isApproved,
   isTerminal,
   mockActions,
-  USE_MOCK,
   type Account,
   type BestTimes as BestTimesData,
   type Job,
@@ -170,7 +169,6 @@ function WorkspaceInner() {
           <strong>{COMPANY}</strong>
           <span className="muted brand__sub">growth coworker</span>
         </div>
-        {USE_MOCK && <span className="tag">mock · sample data</span>}
       </header>
 
       <main className="layout">
@@ -188,6 +186,7 @@ function WorkspaceInner() {
         <div className={pane('schedule')}>
           <Schedule accounts={accounts} posts={schedule} />
           <BestTimes data={bestTimes} />
+          <DemoNote accounts={accounts} />
         </div>
       </main>
 
@@ -210,6 +209,16 @@ function WorkspaceInner() {
         ))}
       </nav>
     </div>
+  )
+}
+
+// The one place the dashboard says what is simulated or sample (no per-item badges).
+function DemoNote({ accounts }: { accounts: Account[] }) {
+  const sim = accounts.filter((a) => a.kind === 'simulated').length
+  return (
+    <p className="demonote">
+      Demo: {sim > 0 && `${sim} of ${accounts.length} accounts are simulated and never posted to. `}Best times are sample data.
+    </p>
   )
 }
 

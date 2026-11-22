@@ -13,8 +13,8 @@ Not generalized. No "enter your URL" flow. No scraping at runtime.
 3. Agent calls a tool -> POST /jobs. Backend writes a script from viral transcripts in data/transcripts/,
    voices it with ElevenLabs, builds a 9:16 video from photos in /data/photos + text overlay (ffmpeg).
 4. Dashboard shows the video. Agent asks for approval by voice. User approves.
-5. Backend posts/schedules across accounts. 2-3 real, the rest simulated and labeled "simulated".
-6. Dashboard shows schedule grid and best-time chart (sample data, labeled).
+5. Backend posts/schedules across accounts. 2-3 real, the rest simulated (kept, but not badged in the UI).
+6. Dashboard shows schedule grid and best-time chart (sample data, not badged in the UI).
 
 ## Stack (change only if the team agrees)
 - Backend: Node + TypeScript + Express in `backend/`, port 3000. Frontend: Next.js (App Router) + React + TypeScript in `frontend/`, port 3001, phone-first
@@ -39,6 +39,7 @@ GET /best-times -> {label: "sample", byHour: [{hour, score}]}
 - Client tool name is exactly `showJob` with param `jobId` (string). The agent calls it right after POST /jobs.
 - On `awaiting_approval` or `failed` the frontend calls `sendUserMessage` once. The text starts with `[status]`, see docs/API_CONTRACT.md "Agent to browser". The agent treats it as a cue to speak, never as approval.
 - Approval is voice only. There is no approve button in the real app.
+- Simulated accounts and sample data stay in the app. Do not add "simulated"/"sample"/"mock" badges to rows, cards or buttons; the single disclosure line at the bottom of the Schedule tab covers it.
 - `frontend/` mock mode reads `mocks/*.json`, so keep those files identical to the contract examples.
 - Next.js 16 differs from older versions. Before editing `frontend/`, read `frontend/AGENTS.md`.
 
@@ -50,7 +51,7 @@ Frontend: call screen (mascot + call button + transcript), dashboard
 ## Rules for the coding agent
 - Plan first: before editing code, list the files you will touch, what changes, what could break, and open questions. Wait for the user's OK.
 - Keep it simple. This is a 4-hour demo, not a product.
-- Fake data must be labeled "sample" or "simulated" in the UI. Never claim it is real.
+- UI labels: no per-item "sample", "simulated" or "mock" badges or tags. The dashboard has ONE small disclosure line instead ("Demo: N of M accounts are simulated and never posted to. Best times are sample data."). Keep that line. Never claim simulated or sample data is real, on screen or out loud.
 - Secrets in .env only, never committed. Keys: ELEVENLABS_API_KEY, GEMINI_API_KEY, GROQ_API_KEY, DEMO_TOOL_SECRET, posting API key.
 - Do not add features outside this file without asking the user.
 - Demo path comes first: one happy path that works every time beats many half features.

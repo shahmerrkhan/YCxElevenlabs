@@ -42,7 +42,7 @@ export function VideoCard({ job, tracking, onMockMake, onMockApprove }: Props) {
         <h2>Today’s UGC</h2>
         {onMockMake && (!tracking || status === 'posted' || status === 'failed') && (
           <button className="btn btn--ghost" onClick={onMockMake}>
-            Make it <span className="tag">mock</span>
+            Make it
           </button>
         )}
       </header>
@@ -79,7 +79,7 @@ export function VideoCard({ job, tracking, onMockMake, onMockApprove }: Props) {
               {ready && (
                 <>
                   <p className="phone__caption">{firstLine(job?.script)}</p>
-                  <span className="tag">{USE_MOCK ? 'sample preview' : 'video unavailable, script preview'}</span>
+                  {!USE_MOCK && <span className="tag">video unavailable, script preview</span>}
                 </>
               )}
               {status === 'failed' && (
@@ -132,7 +132,7 @@ export function VideoCard({ job, tracking, onMockMake, onMockApprove }: Props) {
               </div>
               {onMockApprove && (
                 <button className="btn btn--ghost btn--block" onClick={onMockApprove}>
-                  Approve <span className="tag">mock</span>
+                  Approve
                 </button>
               )}
             </div>

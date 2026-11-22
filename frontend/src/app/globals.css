@@ -232,3 +232,7 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 .status--failed { color: #e5484d; font-weight: 600; }
 .sched__note { font-size: 12px; margin: 10px 0 0; }
 .sched + .btn--block { margin-top: 8px; }
+
+/* Single disclosure line for simulated / sample data (replaces per-item badges) */
+.demonote { margin: 0; padding: 0 4px; font-size: 12px; line-height: 1.4; color: var(--muted); }
+@media (min-width: 900px) { .demonote { grid-column: 1 / -1; } }

@@ -7,7 +7,6 @@ const hourLabel = (h: number) => (h === 0 ? '12a' : h < 12 ? `${h}a` : h === 12 
 
 export function BestTimes({ data }: { data: BestTimesData | null }) {
   const points = data?.byHour ?? []
-  const label = data?.label || 'sample' // always fake, always labeled
   const max = Math.max(1, ...points.map((d) => d.score))
   const best = points.reduce<Point | null>((b, d) => (!b || d.score > b.score ? d : b), null)
 
@@ -15,14 +14,13 @@ export function BestTimes({ data }: { data: BestTimesData | null }) {
     <section className="panel">
       <header className="panel__head">
         <h2>Best time to post</h2>
-        <span className="tag">{label} data</span>
       </header>
       {best && (
         <p className="muted">
           Peak engagement around <strong>{hourLabel(best.hour)}</strong> (Toronto time)
         </p>
       )}
-      <div className="bars" role="img" aria-label={`Engagement score by hour (${label} data)`}>
+      <div className="bars" role="img" aria-label="Engagement score by hour">
         {points.map((d) => (
           <div key={d.hour} className="bars__col" title={`${hourLabel(d.hour)}: ${d.score}`}>
             <div

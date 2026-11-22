@@ -8,7 +8,7 @@ const fmt = (iso: string) => {
   return isNaN(+d) ? iso : d.toLocaleString([], { weekday: 'short', hour: 'numeric', minute: '2-digit' })
 }
 const platform = (p: string) => PLATFORM[p] ?? p
-const SIM_PREVIEW = 3 // simulated rows shown before "show more"
+const SIM_PREVIEW = 3 // simulated rows shown before "show more" (real ones always shown first)
 
 export function Schedule({ accounts, posts }: { accounts: Account[]; posts: ScheduledPost[] }) {
   const [showAllSim, setShowAllSim] = useState(false)
@@ -25,7 +25,6 @@ export function Schedule({ accounts, posts }: { accounts: Account[]; posts: Sche
     <tr key={p.id}>
       <td>
         {platform(p.platform)} {handle.get(p.accountId) ?? p.accountId}
-        {p.kind === 'simulated' ? <span className="tag">simulated</span> : <span className="tag tag--live">real</span>}
       </td>
       <td className="sched__caption">{p.caption}</td>
       <td>{fmt(p.postAt)}</td>
@@ -40,7 +39,7 @@ export function Schedule({ accounts, posts }: { accounts: Account[]; posts: Sche
       <header className="panel__head">
         <h2>Schedule</h2>
         <span className="muted">
-          {realAccounts.length} real · {simCount} simulated
+          {accounts.length} accounts
         </span>
       </header>
 
@@ -49,14 +48,12 @@ export function Schedule({ accounts, posts }: { accounts: Account[]; posts: Sche
           <div key={a.id} className="account">
             <span className="account__platform">{platform(a.platform)}</span>
             <span className="account__handle">{a.handle}</span>
-            <span className="tag tag--live">real</span>
           </div>
         ))}
         {simCount > 0 && (
           <div className="account account--sim">
             <span className="account__platform">+{simCount}</span>
-            <span className="account__handle">accounts</span>
-            <span className="tag">simulated</span>
+            <span className="account__handle">more</span>
           </div>
         )}
       </div>
@@ -81,11 +78,8 @@ export function Schedule({ accounts, posts }: { accounts: Account[]; posts: Sche
           </table>
           {simPosts.length > SIM_PREVIEW && (
             <button className="btn btn--ghost btn--block" onClick={() => setShowAllSim((v) => !v)}>
-              {showAllSim ? 'Show fewer' : `Show ${simPosts.length - SIM_PREVIEW} more simulated`}
+              {showAllSim ? 'Show fewer' : `Show ${simPosts.length - SIM_PREVIEW} more`}
             </button>
-          )}
-          {simPosts.length > 0 && (
-            <p className="muted sched__note">Simulated entries are scheduled for the demo only and are never posted.</p>
           )}
         </>
       )}
