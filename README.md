@@ -1,6 +1,6 @@
-# Kiln growth coworker
+# MyLittleHamswer growth coworker
 
-Built at YC x ElevenLabs, Waterloo. Kiln is a made-up AI study app that turns lecture notes into flashcards and quizzes.
+Built at YC x ElevenLabs, Waterloo. MyLittleHamster is a made-up AI study app that turns lecture notes into flashcards and quizzes.
 This project is its AI growth coworker. The CEO calls a hamster mascot (an ElevenLabs voice agent),
 asks for a UGC video, approves it out loud, and the backend posts it to Instagram.
 
