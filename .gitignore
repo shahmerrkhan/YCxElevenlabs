@@ -12,3 +12,4 @@ build/
 *.log
 /output/
 data/pins/
+data/.audio-tmp/
