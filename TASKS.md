@@ -9,7 +9,7 @@ Paste your line into your own Claude Code:
 
 - **Shahmeer:** "I'm Shahmeer, Backend 1. Read CLAUDE.md and the API contract. Do only my section of TASKS.md and only touch my folders."
 - **Artin:** "I'm Artin, Backend 2. Read CLAUDE.md and the API contract. Do only my section of TASKS.md and only touch my folders."
-- **Frontend:** "I'm [NAME TBD], Frontend. Read CLAUDE.md and the API contract. Do only my section of TASKS.md and only touch my folders."
+- **Dhanika:** "I'm Dhanika, Frontend. Read CLAUDE.md and the API contract. Do only my section of TASKS.md and only touch my folders."
 
 ## Who owns which folder
 
@@ -17,7 +17,7 @@ Paste your line into your own Claude Code:
 |---|---|
 | Shahmeer | `backend/` except the two folders below, `data/`, `docs/`, `mocks/`, root files, backend deploy config |
 | Artin | `backend/agent/`, `backend/posting/` |
-| Frontend | `frontend/`, including its package.json, lockfile and deploy config |
+| Dhanika | `frontend/`, including its package.json, lockfile and deploy config |
 
 - Need a change in someone else's folder, or a backend dependency? Ask the owner.
 - Small commits on main. `git pull --rebase` before every push. Never force push.
@@ -53,14 +53,14 @@ Paste your line into your own Claude Code:
 - [ ] **A7, 2:30-2:50: partner tool list.** Only tools we really used, one line each on how.
   - Handoff: **Artin gives Shahmeer** that list by 2:40.
 
-## Frontend ([NAME TBD])
+## Dhanika (Frontend)
 
-- [ ] **F1, by 12:25: call screen.** Vite + React in `frontend/`, mascot, call button, transcript area, data from `mocks/`.
+- [x] **F1, by 12:25: call screen.** Next.js (App Router) in `frontend/`, dev on port 3001, hamster mascot, call button, transcript area, data from `mocks/`.
 - [ ] **F2, by 12:50: live call.** ElevenLabs React SDK with Artin's agent ID, mic permission, live transcript, talking state.
-- [ ] **F3, by 1:15: job panel.** Status, script and video from mocks (the mock video URL is a placeholder), plus error and empty states.
-- [ ] **F4, by 1:40: job sync.** Implement `showJob`, poll every 2 seconds, send the ready or failed message once.
-- [ ] **F5, by 2:00: dashboard.** Schedule grid with a "simulated" badge on every simulated row, best-time chart with a visible "sample" label.
-- [ ] **F6, 2:00-2:30: deploy frontend.** Switch mocks to the backend URL, HTTPS for the mic, test on a second laptop. From 2:15 fixes only.
+- [x] **F3, by 1:15: job panel.** Status, script and video from mocks (the mock video URL is a placeholder), plus error and empty states.
+- [x] **F4, by 1:40: job sync.** Implement `showJob`, poll every 2 seconds, send the ready or failed message once. Built; untested with the real agent until A3.
+- [x] **F5, by 2:00: dashboard.** Schedule grid with a "simulated" badge on every simulated row, best-time chart with a visible "sample" label.
+- [ ] **F6, 2:00-2:30: deploy frontend.** Switch mocks to the backend URL, HTTPS for the mic, test on the demo phone. From 2:15 fixes only.
   - Handoff: **Frontend gives Shahmeer** the app URL and origin (for CORS) by 2:15.
 - [ ] **F7, 2:30-2:50: backup demo.** Record the 90-second flow.
   - Handoff: **Frontend gives Shahmeer** the recording by 2:45.

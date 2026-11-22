@@ -17,7 +17,7 @@ Not generalized. No "enter your URL" flow. No scraping at runtime.
 6. Dashboard shows schedule grid and best-time chart (sample data, labeled).
 
 ## Stack (change only if the team agrees)
-- Backend: Node + TypeScript + Express. Frontend: Vite + React
+- Backend: Node + TypeScript + Express in `backend/`, port 3000. Frontend: Next.js (App Router) + React + TypeScript in `frontend/`, port 3001, phone-first
 - Claude for script generation (ANTHROPIC_API_KEY)
 - ElevenLabs Agents (voice interface + tools), ElevenLabs TTS for voiceover
 - Unified posting API (Ayrshare or Late) for real posts; Composio optional add-on
@@ -32,6 +32,15 @@ POST /jobs/:id/approve {accountIds?} -> {id, status}
 GET /accounts -> [{id, platform, handle, kind}]
 GET /schedule -> [{id, jobId, accountId, platform, caption, postAt, status, kind}]
 GET /best-times -> {label: "sample", byHour: [{hour, score}]}
+
+## Frontend facts (every agent should know these)
+- The mascot is a hamster (`frontend/public/hamster.png`). Its mouth follows the agent's voice.
+- The frontend only does GETs, through its own `/api/*` proxy to `BACKEND_URL`. It never sends the tool secret.
+- Client tool name is exactly `showJob` with param `jobId` (string). The agent calls it right after POST /jobs.
+- On `awaiting_approval` or `failed` the frontend calls `sendUserMessage` once. The text starts with `[status]`, see docs/API_CONTRACT.md "Agent to browser". The agent treats it as a cue to speak, never as approval.
+- Approval is voice only. There is no approve button in the real app.
+- `frontend/` mock mode reads `mocks/*.json`, so keep those files identical to the contract examples.
+- Next.js 16 differs from older versions. Before editing `frontend/`, read `frontend/AGENTS.md`.
 
 ## Ownership (team of 3)
 Backend 1: script gen, voiceover, video build, /jobs endpoints

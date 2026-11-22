@@ -200,5 +200,8 @@ The browser cannot see the agent's server tool calls, so:
 1. The agent calls POST /jobs (server tool).
 2. The agent calls the client tool `showJob({ "jobId": "job_001" })`.
 3. The frontend polls that job. On `awaiting_approval` or `failed` it calls `sendUserMessage` once, saying which, so the agent speaks.
+   The exact texts:
+   - `[status] Job job_001 is awaiting_approval. The video is on my screen. This is not approval yet: ask me if I want to post it.`
+   - `[status] Job job_001 failed: <code>, <message>.`
 4. A "video ready" message is never approval. The agent asks, waits for a spoken yes, then calls approve.
 5. The frontend keeps polling until `posted` or `failed`, then refreshes the schedule.
