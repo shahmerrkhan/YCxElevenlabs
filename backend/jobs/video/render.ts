@@ -11,10 +11,12 @@ import { buildCaptions } from "./captions.js";
 const FONT_NAME = "Poppins-ExtraBold.ttf";
 const FONT_FILE = fileURLToPath(new URL(`./fonts/${FONT_NAME}`, import.meta.url));
 const DEFAULT_SIZE = "720x1280"; // override with VIDEO_SIZE, like 540x960 on a weak server
-const FPS = 24;
 const SECONDS_PER_PHOTO = 2.5;
 const ZOOM = 0.08; // how much closer each photo gets
-const OVERSAMPLE = 1.5; // zooming a bigger photo jitters less
+// Oversample: zooming a bigger photo jitters less. Threads are set by hand, Render reports the host's cores.
+const FULL = { fps: 24, oversample: 1.5, crf: 24, threads: 2, channels: 2 };
+// Below 720 wide is for weak servers. At 0.1 CPU the full settings run past the timeout.
+const LIGHT = { fps: 15, oversample: 1, crf: 26, threads: 1, channels: 1 };
 const TIMEOUT_MS = 300_000; // for the whole render, not each ffmpeg call
 const PCM_RATE = 8000; // only used to measure the audio
 
@@ -108,6 +110,7 @@ async function renderNow({ photos, audioPath, timingsPath, outPath }: RenderOpti
     throw new RenderFailedError("there are no photos to make a video from, add some to data/photos");
   }
   const { width, height } = readSize();
+  const { fps, oversample, crf, threads, channels } = width < 720 ? LIGHT : FULL;
   const audio = resolve(audioPath);
   const videoPath = resolve(outPath);
   await requireFile(audio, "the voiceover");
@@ -130,9 +133,9 @@ async function renderNow({ photos, audioPath, timingsPath, outPath }: RenderOpti
     if (!durationSec) throw new RenderFailedError("the voiceover has no sound in it");
 
     const shots = Math.max(1, Math.round(durationSec / SECONDS_PER_PHOTO));
-    const framesPerShot = Math.ceil(Math.ceil(durationSec * FPS) / shots);
+    const framesPerShot = Math.ceil(Math.ceil(durationSec * fps) / shots);
     const even = (value: number) => Math.ceil(value / 2) * 2;
-    const [bigWidth, bigHeight] = [even(width * OVERSAMPLE), even(height * OVERSAMPLE)];
+    const [bigWidth, bigHeight] = [even(width * oversample), even(height * oversample)];
     const shotFile = (i: number) => `shot_${String(i).padStart(3, "0")}.jpg`;
 
     for (let i = 0; i < shots; i++) {
@@ -159,23 +162,22 @@ async function renderNow({ photos, audioPath, timingsPath, outPath }: RenderOpti
       "scale=in_range=pc:out_range=tv:in_color_matrix=bt601:out_color_matrix=bt709",
       "format=yuv420p",
       `zoompan=z='1+${ZOOM}*mod(on,${framesPerShot})/${framesPerShot}'` +
-        `:x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':d=${framesPerShot}:s=${width}x${height}:fps=${FPS}`,
+        `:x='iw/2-iw/zoom/2':y='ih/2-ih/zoom/2':d=${framesPerShot}:s=${width}x${height}:fps=${fps}`,
       "setsar=1",
       "ass=captions.ass:fontsdir=fonts", // relative to cwd, so no path escaping
       "format=yuv420p",
     ].join(",");
 
     await ffmpeg("ffmpeg could not build the video", [
-      "-filter_complex_threads", "1",
+      "-filter_complex_threads", "1", "-filter_threads", "1",
       "-threads", "1", "-framerate", "1", "-start_number", "0", "-i", "shot_%03d.jpg",
       "-i", audio,
       "-filter_complex", `[0:v]${filters}[v]`,
       "-map", "[v]", "-map", "1:a:0",
-      // Render reports the host's cores, so the thread count is set by hand.
-      "-c:v", "libx264", "-preset", "veryfast", "-crf", "24", "-threads", "2",
+      "-c:v", "libx264", "-preset", "veryfast", "-crf", String(crf), "-threads", String(threads),
       "-pix_fmt", "yuv420p", "-color_range", "tv",
       "-colorspace", "bt709", "-color_primaries", "bt709", "-color_trc", "bt709",
-      "-c:a", "aac", "-b:a", "128k", "-ar", "44100", "-ac", "2",
+      "-c:a", "aac", "-b:a", `${64 * channels}k`, "-ar", "44100", "-ac", String(channels),
       "-t", durationSec.toFixed(3), "-movflags", "+faststart", "-y", "video.mp4",
     ]);
 
