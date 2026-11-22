@@ -1,12 +1,14 @@
-// Scripting is real. Voicing and rendering are STUBS until S4 and S5.
+// Scripting and voicing are real. Rendering is a STUB until S5.
 import { setTimeout as sleep } from "node:timers/promises";
 import getJobMock from "../../mocks/get-job.json" with { type: "json" };
+import { mediaUrl } from "../core/media.js";
 import type { Job, JobStore } from "./store.js";
 import { spokenText, withDisclosure, type ScriptParts } from "./script/checks.js";
 import { generateScript } from "./script/generate.js";
 import { AllModelsFailedError, NotConfiguredError } from "./script/llm.js";
 import { pickBackupScript } from "./script/safety-net.js";
 import { readTranscripts } from "./transcripts.js";
+import { AUDIO_FILE, makeVoiceover, VoiceFailedError } from "./voice/tts.js";
 
 const QUEUED_MS = 500; // long enough to be seen by a poll right after POST
 const STUB_STEP_MS = 3000;
@@ -38,11 +40,13 @@ async function runPipeline(jobs: JobStore, job: Job) {
   await sleep(QUEUED_MS);
   jobs.update(id, { status: "scripting" });
 
+  let text: string;
   try {
     const parts = await writeScript(job, log);
+    text = spokenText(parts);
     jobs.update(id, {
       status: "voicing",
-      script: spokenText(parts),
+      script: text,
       scriptParts: parts,
       caption: withDisclosure(parts.caption),
     });
@@ -58,8 +62,18 @@ async function runPipeline(jobs: JobStore, job: Job) {
     return;
   }
 
-  await sleep(STUB_STEP_MS);
-  jobs.update(id, { status: "rendering", audioUrl: getJobMock.audioUrl.replace(getJobMock.id, id) });
+  const voiceLog: Log = (line) => console.log(`[voice] job=${id} ${line}`);
+  try {
+    await makeVoiceover({ id, text, log: voiceLog });
+    jobs.update(id, { status: "rendering", audioUrl: mediaUrl(id, AUDIO_FILE) });
+  } catch (err) {
+    const known = err instanceof VoiceFailedError;
+    const message = known ? err.message : "the voiceover hit an unexpected error";
+    voiceLog(`FAILED ${message}${known ? "" : ` (${err instanceof Error ? err.name : "unknown"})`}`);
+    jobs.update(id, { status: "failed", error: { code: "voice_failed", message } });
+    return;
+  }
+
   await sleep(STUB_STEP_MS);
   jobs.update(id, {
     status: "awaiting_approval",
