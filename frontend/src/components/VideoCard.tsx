@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { USE_MOCK, type Job, type JobStatus } from '@/lib/api'
 
-const STEPS = ['Script', 'Voice', 'Video', 'Ready', 'Posted'] as const
+const STEPS = ['Script', 'Voice', 'Video', 'Ready', 'Scheduled'] as const
 const STEP_OF: Record<JobStatus, number> = {
   queued: 0,
   scripting: 0,
@@ -128,7 +128,7 @@ export function VideoCard({ job, tracking, onMockMake, onMockApprove }: Props) {
             <div className="video__cta">
               <div className="voicecta" role="status">
                 <span className="voicecta__dot" aria-hidden />
-                Say <strong>“yes, post it”</strong> to approve
+                Say <strong>“yes, schedule it”</strong> to approve
               </div>
               {onMockApprove && (
                 <button className="btn btn--ghost btn--block" onClick={onMockApprove}>
@@ -137,8 +137,8 @@ export function VideoCard({ job, tracking, onMockMake, onMockApprove }: Props) {
               )}
             </div>
           )}
-          {status === 'posting' && <div className="donebar">Posting…</div>}
-          {status === 'posted' && <div className="donebar donebar--ok">Posted ✓</div>}
+          {status === 'posting' && <div className="donebar">Scheduling…</div>}
+          {status === 'posted' && <div className="donebar donebar--ok">Scheduled ✓</div>}
         </div>
       </div>
     </section>

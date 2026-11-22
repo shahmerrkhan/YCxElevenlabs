@@ -54,6 +54,8 @@ function WorkspaceInner() {
     if (text.startsWith(STATUS_PREFIX)) {
       role = 'system'
       text = text.slice(STATUS_PREFIX.length).trim()
+      // The agent gets the contract's text. The screen must not suggest a real post: scheduling is simulated.
+      text = text.replace('ask me if I want to post it', 'ask me if I want it on the simulated schedule')
     }
     // ElevenLabs voice-direction tags like "[warmly]" or "[laughs]" steer the voice; don't show them
     if (role === 'agent') text = text.replace(/\[[a-z][a-z ,'-]{0,30}\]\s*/gi, '').replace(/\s{2,}/g, ' ').trim()
