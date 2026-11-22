@@ -1,0 +1,25 @@
+{
+  "hook": {
+    "say": "If your desktop is literally drowning in lecture PDFs you are never opening again, listen up.",
+    "show": "Desktop full of dead PDFs"
+  },
+  "beats": [
+    {
+      "say": "Rereading them feels like studying, then you just blank when the midterm hits.",
+      "show": "Rereading makes you blank"
+    },
+    {
+      "say": "Instead of spending hours making flashcards by hand, just drop your notes right into Kiln.",
+      "show": "Drop your notes into Kiln"
+    },
+    {
+      "say": "It turns them into actual exam questions, and every answer links right back to the exact line.",
+      "show": "Answers link to your notes"
+    },
+    {
+      "say": "Drop tonight's lecture notes into Kiln and quiz yourself before bed.",
+      "show": "Quiz yourself before bed"
+    }
+  ],
+  "caption": "stop rereading the same pdf for four hours"
+}

@@ -1,0 +1,25 @@
+{
+  "hook": {
+    "say": "It is eleven pm on a Tuesday and I am staring at three midterms worth of notes I am never gonna reopen.",
+    "show": "three midterms this week"
+  },
+  "beats": [
+    {
+      "say": "Rereading this stuff feels like studying until you just blank completely on the test.",
+      "show": "rereading notes feels useless"
+    },
+    {
+      "say": "Instead of spending hours making flashcards by hand, just drop your slides or typed notes right into Kiln.",
+      "show": "dump your notes into Kiln"
+    },
+    {
+      "say": "It turns everything into actual exam questions and a deck you can actually get through.",
+      "show": "exam style flashcards"
+    },
+    {
+      "say": "Drop tonight's lecture notes into Kiln and quiz yourself before bed.",
+      "show": "quiz yourself before bed"
+    }
+  ],
+  "caption": "good luck to everyone dying this week"
+}
