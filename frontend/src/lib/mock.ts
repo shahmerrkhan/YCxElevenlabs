@@ -8,10 +8,11 @@ import jobSeed from '../../../mocks/get-job.json'
 
 const wait = (ms: number) => new Promise((r) => setTimeout(r, ms))
 
-// The live backend has 100 accounts (2-3 real). Pad the seed with simulated ones to match.
+// Like the live backend: kiln.study is the only real account, the seed and the padding are simulated.
 const accounts: Account[] = [
-  ...(accountsSeed as Account[]),
-  ...Array.from({ length: 100 - accountsSeed.length }, (_, i): Account => {
+  { id: 'acct_kiln_study', platform: 'instagram', handle: '@kiln.study', kind: 'real' },
+  ...accountsSeed.map((a): Account => ({ ...a, kind: 'simulated' })),
+  ...Array.from({ length: 99 - accountsSeed.length }, (_, i): Account => {
     const n = i + accountsSeed.length + 1
     return {
       id: `acct_${String(n).padStart(3, '0')}`,

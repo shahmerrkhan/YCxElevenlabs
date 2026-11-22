@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import { USE_MOCK, type Job, type JobStatus } from '@/lib/api'
 
-const STEPS = ['Script', 'Voice', 'Video', 'Ready', 'Scheduled'] as const
+const STEPS = ['Script', 'Voice', 'Video', 'Ready', 'Scheduled'] as const // the last reads Posted after a real post
 const STEP_OF: Record<JobStatus, number> = {
   queued: 0,
   scripting: 0,
@@ -23,12 +23,13 @@ const WORKING_LABEL: Partial<Record<JobStatus, string>> = {
 
 type Props = {
   job: Job | null
+  posted: boolean // this job's real post is on Instagram
   tracking: boolean // a job id is known (showJob called), even before the first poll returns
   onMockMake?: () => void // mock mode only
   onMockApprove?: () => void // mock mode only
 }
 
-export function VideoCard({ job, tracking, onMockMake, onMockApprove }: Props) {
+export function VideoCard({ job, posted, tracking, onMockMake, onMockApprove }: Props) {
   const [muted, setMuted] = useState(true)
   const [videoBroken, setVideoBroken] = useState<string | null>(null)
   const status = job?.status
@@ -102,7 +103,7 @@ export function VideoCard({ job, tracking, onMockMake, onMockApprove }: Props) {
                     status === 'failed' ? '' : i < step ? 'done' : i === step ? (i === 3 ? 'wait' : 'active') : ''
                   }
                 >
-                  {name}
+                  {posted && name === 'Scheduled' ? 'Posted' : name}
                 </li>
               ))}
             </ol>
@@ -138,7 +139,7 @@ export function VideoCard({ job, tracking, onMockMake, onMockApprove }: Props) {
             </div>
           )}
           {status === 'posting' && <div className="donebar">Scheduling…</div>}
-          {status === 'posted' && <div className="donebar donebar--ok">Scheduled ✓</div>}
+          {status === 'posted' && <div className="donebar donebar--ok">{posted ? 'Posted' : 'Scheduled'} ✓</div>}
         </div>
       </div>
     </section>

@@ -8,7 +8,6 @@ import {
   isTerminal,
   mockActions,
   NotFoundError,
-  type Account,
   type BestTimes as BestTimesData,
   type Job,
   type ScheduledPost,
@@ -42,7 +41,7 @@ function WorkspaceInner() {
   const [lines, setLines] = useState<Line[]>([])
   const [jobId, setJobId] = useState<string | null>(null)
   const [job, setJob] = useState<Job | null>(null)
-  const [accounts, setAccounts] = useState<Account[]>([])
+  const [sessionJobs, setSessionJobs] = useState<string[]>([])
   const [schedule, setSchedule] = useState<ScheduledPost[]>([])
   const [bestTimes, setBestTimes] = useState<BestTimesData | null>(null)
   const [tab, setTab] = useState<Tab>('call')
@@ -84,6 +83,7 @@ function WorkspaceInner() {
 
   const trackJob = useCallback((id: string) => {
     setJobId(id)
+    setSessionJobs((ids) => [...ids, id])
     setJob(null)
     setTab('video') // demo: jump to the video as soon as a job starts
     // Keep the job in the URL so a page refresh mid-demo picks it back up
@@ -109,7 +109,6 @@ function WorkspaceInner() {
 
   // Initial data
   useEffect(() => {
-    api.getAccounts().then(ok(setAccounts)).catch(down)
     api.getBestTimes().then(ok(setBestTimes)).catch(down)
     refreshSchedule()
   }, [refreshSchedule, ok, down])
@@ -198,6 +197,11 @@ function WorkspaceInner() {
     await mockActions.approveJob(jobId).catch((e: Error) => addLine('system', `Mock approve failed: ${e.message}`))
   }
 
+  // GET /schedule is shared by every visitor, so keep only real posts of jobs this page has tracked.
+  // Job status "posted" is a timer in the backend; a real, posted row is the proof of a real post.
+  const livePosts = schedule.filter((p) => p.kind === 'real' && p.status === 'posted' && sessionJobs.includes(p.jobId))
+  const jobPosted = livePosts.some((p) => p.jobId === jobId)
+
   const pane = (name: Tab) => `pane pane--${name} ${tab === name ? 'pane--active' : ''}`
   const live = convo.status === 'connected' || convo.status === 'connecting'
 
@@ -224,15 +228,16 @@ function WorkspaceInner() {
         <div className={pane('video')}>
           <VideoCard
             job={job}
+            posted={jobPosted}
             tracking={!!jobId}
             onMockMake={mockActions ? mockMake : undefined}
             onMockApprove={mockActions ? mockApprove : undefined}
           />
         </div>
         <div className={pane('schedule')}>
-          <Schedule accounts={accounts} posts={schedule} />
+          <Schedule posts={livePosts} />
           <BestTimes data={bestTimes} />
-          <DemoNote accounts={accounts} />
+          <DemoNote />
         </div>
       </main>
 
@@ -250,7 +255,7 @@ function WorkspaceInner() {
             {label}
             {key === 'video' && job?.status === 'awaiting_approval' && <span className="tabbar__dot" />}
             {key === 'video' && job?.status === 'failed' && <span className="tabbar__dot tabbar__dot--err" />}
-            {key === 'schedule' && schedule.length > 0 && <span className="tabbar__count">{schedule.length}</span>}
+            {key === 'schedule' && livePosts.length > 0 && <span className="tabbar__count">{livePosts.length}</span>}
           </button>
         ))}
       </nav>
@@ -259,11 +264,11 @@ function WorkspaceInner() {
 }
 
 // The one place the dashboard says what is simulated or sample (no per-item badges).
-function DemoNote({ accounts }: { accounts: Account[] }) {
-  const sim = accounts.filter((a) => a.kind === 'simulated').length
+function DemoNote() {
   return (
     <p className="demonote">
-      Demo: {sim > 0 && `${sim} of ${accounts.length} accounts are simulated and never posted to. `}Best times are sample data.
+      Demo: only @kiln.study posts for real. Other accounts are simulated and never posted to. Best times are sample
+      data.
     </p>
   )
 }
