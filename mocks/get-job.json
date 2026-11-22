@@ -1,0 +1,8 @@
+{
+  "id": "job_001",
+  "status": "awaiting_approval",
+  "script": "[sample] I almost didn't post this. I tried it for a week, and day three is where it got weird.",
+  "audioUrl": "https://example.com/media/job_001.mp3",
+  "videoUrl": "https://example.com/media/job_001.mp4",
+  "error": null
+}

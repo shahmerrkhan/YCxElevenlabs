@@ -1,0 +1,22 @@
+[
+  {
+    "id": "post_001",
+    "jobId": "job_001",
+    "accountId": "acct_001",
+    "platform": "tiktok",
+    "caption": "[sample] day three is where it got weird",
+    "postAt": "2026-11-22T14:30:00-05:00",
+    "status": "posted",
+    "kind": "real"
+  },
+  {
+    "id": "post_002",
+    "jobId": "job_001",
+    "accountId": "acct_003",
+    "platform": "tiktok",
+    "caption": "[sample] day three is where it got weird",
+    "postAt": "2026-11-22T18:00:00-05:00",
+    "status": "scheduled",
+    "kind": "simulated"
+  }
+]

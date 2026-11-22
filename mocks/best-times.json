@@ -1,0 +1,13 @@
+{
+  "label": "sample",
+  "byHour": [
+    { "hour": 0, "score": 22 }, { "hour": 1, "score": 14 }, { "hour": 2, "score": 9 },
+    { "hour": 3, "score": 6 }, { "hour": 4, "score": 5 }, { "hour": 5, "score": 10 },
+    { "hour": 6, "score": 24 }, { "hour": 7, "score": 41 }, { "hour": 8, "score": 52 },
+    { "hour": 9, "score": 47 }, { "hour": 10, "score": 43 }, { "hour": 11, "score": 55 },
+    { "hour": 12, "score": 68 }, { "hour": 13, "score": 60 }, { "hour": 14, "score": 49 },
+    { "hour": 15, "score": 51 }, { "hour": 16, "score": 58 }, { "hour": 17, "score": 70 },
+    { "hour": 18, "score": 86 }, { "hour": 19, "score": 94 }, { "hour": 20, "score": 91 },
+    { "hour": 21, "score": 77 }, { "hour": 22, "score": 56 }, { "hour": 23, "score": 35 }
+  ]
+}

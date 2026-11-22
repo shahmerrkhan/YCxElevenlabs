@@ -1,0 +1,6 @@
+[
+  { "id": "acct_001", "platform": "tiktok", "handle": "@sample_one", "kind": "real" },
+  { "id": "acct_002", "platform": "instagram", "handle": "@sample_two", "kind": "real" },
+  { "id": "acct_003", "platform": "tiktok", "handle": "@sample_three", "kind": "simulated" },
+  { "id": "acct_004", "platform": "youtube", "handle": "@sample_four", "kind": "simulated" }
+]
