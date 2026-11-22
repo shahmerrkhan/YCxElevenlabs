@@ -28,7 +28,7 @@ Paste your line into your own Claude Code:
 - [ ] **S1, by 12:25: backend skeleton.** Node + TypeScript + Express, CORS, media route, tool-secret check, in-memory job store (include a caption and one seeded test job).
   - Handoff: **Shahmeer gives Artin** the job store interface, router mount point and stub /jobs routes (to test tools against) by 12:25.
   - Handoff: **Shahmeer gives Artin** the tool secret privately by 12:25.
-- [ ] **S2, by 12:50: collect and drop in inputs.** Viral UGC transcripts in `data/transcripts/` (one .txt each), ~50 photos in `data/pins/`, company facts. The repo is public, so only commit what can be shared.
+- [ ] **S2, by 12:50: collect and drop in inputs.** Viral UGC transcripts in `data/transcripts/` (one .txt each), ~50 photos in `data/photos/`, company facts. The repo is public, so only commit what can be shared.
 - [ ] **S3, by 1:15: script generator and /jobs.** Claude via `ANTHROPIC_API_KEY`. Follow the contract's script quality rule: extract patterns, draft, at least 2 compare-and-rewrite rounds. No transcripts means 422 `no_transcripts`. Also produce the caption.
   - Handoff: **Shahmeer gives Artin** working POST and GET /jobs routes by 1:15.
 - [ ] **S4, by 1:35: voiceover.** ElevenLabs TTS, save audio, set `audioUrl`.

@@ -4,14 +4,14 @@ Rules: all code written after 11:00 in this repo. Live demo on real input. List 
 Judging: 25% technical, 25% ElevenLabs + partner tools central, 25% usefulness, 15% demo, 10% creativity.
 
 ## What it is
-A web app with a talking mascot, an AI growth coworker for ONE fixed company: [COMPANY TBD].
+A web app with a talking mascot, an AI growth coworker for ONE fixed company: Kiln (made up for the demo), an AI study app that turns university students' lecture notes into flashcards and quizzes.
 Not generalized. No "enter your URL" flow. No scraping at runtime.
 
 ## Demo flow (90 sec)
 1. User calls the mascot (ElevenLabs agent, browser voice).
 2. User says "make today's UGC".
 3. Agent calls a tool -> POST /jobs. Backend writes a script from viral transcripts in data/transcripts/,
-   voices it with ElevenLabs, builds a 9:16 video from photos in /data/pins + text overlay (ffmpeg).
+   voices it with ElevenLabs, builds a 9:16 video from photos in /data/photos + text overlay (ffmpeg).
 4. Dashboard shows the video. Agent asks for approval by voice. User approves.
 5. Backend posts/schedules across accounts. 2-3 real, the rest simulated and labeled "simulated".
 6. Dashboard shows schedule grid and best-time chart (sample data, labeled).

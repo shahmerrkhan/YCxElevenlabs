@@ -8,6 +8,7 @@
   "scripts": {
     "dev": "tsx watch backend/core/server.ts",
     "start": "tsx backend/core/server.ts",
+    "inputs": "tsx backend/jobs/check-inputs.ts",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
