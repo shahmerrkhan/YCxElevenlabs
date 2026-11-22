@@ -32,7 +32,8 @@ async function cachedCopy(name: string): Promise<string> {
     await run(
       binary,
       [
-        "-nostdin", "-v", "error", "-xerror", // so a half-downloaded photo fails
+        "-nostdin", "-v", "error",
+        "-xerror", "-err_detect", "explode", // both, or a half-downloaded photo passes as a grey one
         "-threads", "1", "-i", original,
         "-vf", `${scale},format=yuvj420p`,
         "-frames:v", "1", "-q:v", "3", "-threads", "1", "-update", "1", "-y", partial,
