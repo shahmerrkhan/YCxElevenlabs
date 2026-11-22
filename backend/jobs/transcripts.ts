@@ -2,6 +2,8 @@ import { readdir, readFile } from "node:fs/promises";
 import type { Dirent } from "node:fs";
 
 const TRANSCRIPTS_DIR = new URL("../../data/transcripts/", import.meta.url);
+// The "source:" and "views:" lines at the top of a file are for humans, not the model.
+const HEADER = /^(?:(?:source|views):[^\n]*(?:\n|$))+/;
 
 /** The usable transcripts: non-empty .txt files. */
 async function loadTranscripts(): Promise<{ name: string; text: string }[]> {
@@ -16,7 +18,8 @@ async function loadTranscripts(): Promise<{ name: string; text: string }[]> {
   const found: { name: string; text: string }[] = [];
   for (const entry of entries) {
     if (entry.isDirectory() || !entry.name.toLowerCase().endsWith(".txt")) continue;
-    const text = await readFile(new URL(encodeURIComponent(entry.name), TRANSCRIPTS_DIR), "utf8");
+    const raw = await readFile(new URL(encodeURIComponent(entry.name), TRANSCRIPTS_DIR), "utf8");
+    const text = raw.replace(HEADER, "");
     if (text.trim()) found.push({ name: entry.name, text });
   }
   return found;
