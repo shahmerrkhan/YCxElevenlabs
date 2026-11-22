@@ -1,16 +1,19 @@
 // STUB until A4/A5 replace it with the router from backend/posting/.
-// Nothing is posted, so every account is "simulated" and every entry "scheduled",
-// even where the mocks show "real" and "posted".
+// These accounts are never posted to, so each is "simulated" and each entry "scheduled",
+// even where the mocks show "real" and "posted". The one real account is kiln.study: it is
+// added to /accounts and /schedule only after a Reel was really published.
 import express, { Router, type RequestHandler } from "express";
 import accountsMock from "../../mocks/accounts.json" with { type: "json" };
 import bestTimesMock from "../../mocks/best-times.json" with { type: "json" };
 import scheduleMock from "../../mocks/schedule.json" with { type: "json" };
-import type { JobStore } from "../jobs/store.js";
+import type { Job, JobStore } from "../jobs/store.js";
+import { postReel } from "../posting/instagram.js";
 import { ApiError } from "./errors.js";
 
 const POSTING_MS = 3000;
 const HOUR_MS = 60 * 60 * 1000;
 
+const KILN = { id: "acct_kiln_study", platform: "instagram", handle: "@kiln.study", kind: "real" };
 const accounts = accountsMock.map((account) => ({ ...account, kind: "simulated" }));
 
 interface Deps {
@@ -37,7 +40,30 @@ function selectAccounts(body: unknown) {
 
 export function createStubPostingRouter({ jobs, requireToolSecret }: Deps) {
   const router = Router();
-  const schedule: typeof scheduleMock = [];
+  const schedule: ((typeof scheduleMock)[number] & { permalink?: string })[] = [];
+  let hasPosted = false;
+  const nextId = () => `post_${String(schedule.length + 1).padStart(3, "0")}`;
+
+  async function postToInstagram({ id, videoUrl, caption }: Job) {
+    try {
+      const permalink = await postReel({ videoUrl: videoUrl ?? "", caption: caption ?? "" });
+      hasPosted = true;
+      schedule.push({
+        id: nextId(),
+        jobId: id,
+        accountId: KILN.id,
+        platform: KILN.platform,
+        caption: caption ?? "",
+        postAt: new Date().toISOString(),
+        status: "posted",
+        kind: KILN.kind,
+        permalink,
+      });
+      console.log(`[instagram] job=${id} posted ${permalink}`);
+    } catch (err) {
+      console.error(`[instagram] job=${id} not confirmed, simulated schedule stays:`, err);
+    }
+  }
 
   // Every content type is parsed as JSON. Otherwise an unparsed accountIds would mean "all accounts".
   const readJson = express.json({ type: () => true });
@@ -52,7 +78,7 @@ export function createStubPostingRouter({ jobs, requireToolSecret }: Deps) {
 
     selected.forEach((account, i) => {
       schedule.push({
-        id: `post_${String(schedule.length + 1).padStart(3, "0")}`,
+        id: nextId(),
         jobId: id,
         accountId: account.id,
         platform: account.platform,
@@ -65,10 +91,12 @@ export function createStubPostingRouter({ jobs, requireToolSecret }: Deps) {
     setTimeout(() => jobs.transition(id, "posting", "posted"), POSTING_MS);
 
     res.status(202).json({ id, status: job.status });
+    // In the background. A chosen subset of simulated accounts, or the seeded sample job, never posts.
+    if (selected.length === accounts.length && id !== "job_001") void postToInstagram(job);
   });
 
   router.get("/accounts", (_req, res) => {
-    res.json(accounts);
+    res.json(hasPosted ? [...accounts, KILN] : accounts);
   });
 
   router.get("/schedule", (_req, res) => {
