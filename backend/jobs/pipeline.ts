@@ -1,17 +1,19 @@
-// Scripting and voicing are real. Rendering is a STUB until S5.
+// One job, start to finish: script, voiceover, video, then wait for approval.
 import { setTimeout as sleep } from "node:timers/promises";
-import getJobMock from "../../mocks/get-job.json" with { type: "json" };
-import { mediaUrl } from "../core/media.js";
+import { fileURLToPath } from "node:url";
+import { MEDIA_DIR, mediaUrl } from "../core/media.js";
 import type { Job, JobStore } from "./store.js";
 import { spokenText, withDisclosure, type ScriptParts } from "./script/checks.js";
 import { generateScript } from "./script/generate.js";
 import { AllModelsFailedError, NotConfiguredError } from "./script/llm.js";
 import { pickBackupScript } from "./script/safety-net.js";
 import { readTranscripts } from "./transcripts.js";
+import { preparePhotos } from "./video/photos.js";
+import { RenderFailedError, renderVideo } from "./video/render.js";
 import { AUDIO_FILE, makeVoiceover, VoiceFailedError } from "./voice/tts.js";
 
 const QUEUED_MS = 500; // long enough to be seen by a poll right after POST
-const STUB_STEP_MS = 3000;
+const VIDEO_FILE = "video.mp4";
 
 type Log = (line: string) => void;
 
@@ -63,8 +65,9 @@ async function runPipeline(jobs: JobStore, job: Job) {
   }
 
   const voiceLog: Log = (line) => console.log(`[voice] job=${id} ${line}`);
+  let voiceover: Awaited<ReturnType<typeof makeVoiceover>>;
   try {
-    await makeVoiceover({ id, text, log: voiceLog });
+    voiceover = await makeVoiceover({ id, text, log: voiceLog });
     jobs.update(id, { status: "rendering", audioUrl: mediaUrl(id, AUDIO_FILE) });
   } catch (err) {
     const known = err instanceof VoiceFailedError;
@@ -74,11 +77,24 @@ async function runPipeline(jobs: JobStore, job: Job) {
     return;
   }
 
-  await sleep(STUB_STEP_MS);
-  jobs.update(id, {
-    status: "awaiting_approval",
-    videoUrl: getJobMock.videoUrl.replace(getJobMock.id, id),
-  });
+  const videoLog: Log = (line) => console.log(`[video] job=${id} ${line}`);
+  try {
+    const started = Date.now();
+    const photos = await preparePhotos(videoLog);
+    await renderVideo({
+      photos,
+      audioPath: fileURLToPath(voiceover.audioFile),
+      timingsPath: fileURLToPath(voiceover.timingsFile),
+      outPath: fileURLToPath(new URL(`${id}/${VIDEO_FILE}`, MEDIA_DIR)),
+    });
+    videoLog(`rendered photos=${photos.length} ms=${Date.now() - started}`);
+    jobs.update(id, { status: "awaiting_approval", videoUrl: mediaUrl(id, VIDEO_FILE) });
+  } catch (err) {
+    const known = err instanceof RenderFailedError;
+    const message = known ? err.message : "the video hit an unexpected error";
+    videoLog(`FAILED ${message}${known ? "" : ` (${err instanceof Error ? err.name : "unknown"})`}`);
+    jobs.update(id, { status: "failed", error: { code: "render_failed", message } });
+  }
 }
 
 export function startPipeline(jobs: JobStore, job: Job) {
