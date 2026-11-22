@@ -7,6 +7,7 @@ import {
   isApproved,
   isTerminal,
   mockActions,
+  NotFoundError,
   type Account,
   type BestTimes as BestTimesData,
   type Job,
@@ -45,6 +46,7 @@ function WorkspaceInner() {
   const [schedule, setSchedule] = useState<ScheduledPost[]>([])
   const [bestTimes, setBestTimes] = useState<BestTimesData | null>(null)
   const [tab, setTab] = useState<Tab>('call')
+  const [backendDown, setBackendDown] = useState(false)
   const lineId = useRef(0)
   const announced = useRef<Set<string>>(new Set()) // "<jobId>:<status>" already sent to the agent
 
@@ -59,9 +61,19 @@ function WorkspaceInner() {
     setLines((ls) => [...ls, { role, text, id: lineId.current++ }])
   }, [])
 
-  const refreshSchedule = useCallback(() => {
-    api.getSchedule().then(setSchedule).catch(console.warn)
+  // Any successful GET means the backend is reachable; a failed one shows the notice.
+  const ok = useCallback(<T,>(set: (v: T) => void) => (v: T) => {
+    set(v)
+    setBackendDown(false)
   }, [])
+  const down = useCallback((e: unknown) => {
+    console.warn(e)
+    setBackendDown(true)
+  }, [])
+
+  const refreshSchedule = useCallback(() => {
+    api.getSchedule().then(ok(setSchedule)).catch(down)
+  }, [ok, down])
 
   const convo = useConversation({
     onMessage: ({ role, message }) => addLine(role, message),
@@ -72,7 +84,19 @@ function WorkspaceInner() {
     setJobId(id)
     setJob(null)
     setTab('video') // demo: jump to the video as soon as a job starts
+    // Keep the job in the URL so a page refresh mid-demo picks it back up
+    const url = new URL(window.location.href)
+    url.searchParams.set('job', id)
+    window.history.replaceState(null, '', url)
   }, [])
+
+  // On load, resume the job from ?job=<id> (set by trackJob)
+  useEffect(() => {
+    const id = new URLSearchParams(window.location.search).get('job')
+    if (!id) return
+    const raf = requestAnimationFrame(() => trackJob(id))
+    return () => cancelAnimationFrame(raf)
+  }, [trackJob])
 
   useConversationClientTool('showJob', (params) => {
     const id = String(params.jobId ?? '')
@@ -83,10 +107,10 @@ function WorkspaceInner() {
 
   // Initial data
   useEffect(() => {
-    api.getAccounts().then(setAccounts).catch(console.warn)
-    api.getBestTimes().then(setBestTimes).catch(console.warn)
+    api.getAccounts().then(ok(setAccounts)).catch(down)
+    api.getBestTimes().then(ok(setBestTimes)).catch(down)
     refreshSchedule()
-  }, [refreshSchedule])
+  }, [refreshSchedule, ok, down])
 
   // Light background refresh of the schedule (posting can take a while)
   useEffect(() => {
@@ -104,12 +128,23 @@ function WorkspaceInner() {
         const j = await api.getJob(jobId)
         if (stop) return
         setJob(j)
+        setBackendDown(false)
         if (isTerminal(j.status)) {
           refreshSchedule()
           return
         }
       } catch (e) {
-        console.warn(e)
+        if (stop) return
+        if (e instanceof NotFoundError) {
+          // Stale ?job= (backend restarted, or mock mode after a refresh): forget it quietly
+          const url = new URL(window.location.href)
+          url.searchParams.delete('job')
+          window.history.replaceState(null, '', url)
+          setJobId(null)
+          setJob(null)
+          return
+        }
+        down(e)
       }
       if (!stop) timer = setTimeout(poll, POLL_MS)
     }
@@ -118,7 +153,7 @@ function WorkspaceInner() {
       stop = true
       clearTimeout(timer)
     }
-  }, [jobId, refreshSchedule])
+  }, [jobId, refreshSchedule, down])
 
   // Tell the agent once when the video is ready or the job failed, so it speaks.
   // "Ready" is never approval: the agent must ask and wait for a spoken yes.
@@ -173,6 +208,12 @@ function WorkspaceInner() {
           <span className="muted brand__sub">growth coworker</span>
         </div>
       </header>
+
+      {backendDown && (
+        <div className="banner" role="alert">
+          Can’t reach the backend. Retrying…
+        </div>
+      )}
 
       <main className="layout">
         <div className={pane('call')}>

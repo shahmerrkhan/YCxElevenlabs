@@ -1,6 +1,6 @@
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { useConversationControls, useConversationMode, useConversationStatus } from '@elevenlabs/react'
 import { Mascot } from './Mascot'
 
@@ -17,9 +17,18 @@ export function CallPanel({ lines, company }: { lines: Line[]; company: string }
     bottom.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' })
   }, [lines])
 
+  // Instant feedback on tap: the SDK stays "disconnected" while the mic permission prompt is open.
+  const [starting, setStarting] = useState(false)
+  const [micError, setMicError] = useState<string | null>(null)
+  useEffect(() => {
+    if (status === 'disconnected' || !starting) return
+    const id = requestAnimationFrame(() => setStarting(false)) // SDK took over (connecting/connected/error)
+    return () => cancelAnimationFrame(id)
+  }, [status, starting])
+
   const live = status === 'connected' || status === 'connecting'
   const label =
-    status === 'connecting'
+    status === 'connecting' || starting
       ? 'Connecting…'
       : status === 'connected'
         ? isSpeaking
@@ -29,10 +38,26 @@ export function CallPanel({ lines, company }: { lines: Line[]; company: string }
 
   async function onCall() {
     if (live) return endSession()
+    if (starting) return
+    setMicError(null)
+    if (!window.isSecureContext || !navigator.mediaDevices?.getUserMedia) {
+      setMicError('The mic only works over HTTPS. Open the https:// link of this app to talk.')
+      return
+    }
+    setStarting(true)
     try {
-      await navigator.mediaDevices.getUserMedia({ audio: true })
-    } catch {
-      alert('Microphone access is needed to talk to your coworker.')
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      stream.getTracks().forEach((t) => t.stop()) // only asking permission; the SDK opens its own stream
+    } catch (e) {
+      setStarting(false)
+      const name = (e as DOMException)?.name
+      setMicError(
+        name === 'NotAllowedError'
+          ? 'Mic is blocked. Allow microphone access for this site (address bar → site settings), then tap Call again.'
+          : name === 'NotFoundError'
+            ? 'No microphone found. Connect one and tap Call again.'
+            : 'Couldn’t start the mic. Tap Call to try again.',
+      )
       return
     }
     startSession()
@@ -46,7 +71,7 @@ export function CallPanel({ lines, company }: { lines: Line[]; company: string }
       </header>
 
       <div className="call__stage">
-        <Mascot />
+        <Mascot starting={starting} />
       </div>
 
       <button
@@ -54,10 +79,15 @@ export function CallPanel({ lines, company }: { lines: Line[]; company: string }
         onClick={onCall}
         disabled={!AGENT_ID}
       >
-        {live ? 'End call' : 'Call'}
+        {live ? 'End call' : starting ? 'Calling…' : 'Call'}
       </button>
       {!AGENT_ID && <p className="hint">Set NEXT_PUBLIC_ELEVENLABS_AGENT_ID in .env.local to enable voice.</p>}
-      {message && <p className="hint hint--err">{message}</p>}
+      {micError && (
+        <p className="hint hint--err" role="alert">
+          {micError}
+        </p>
+      )}
+      {message && !micError && <p className="hint hint--err">{message}</p>}
 
       <div className="transcript" aria-live="polite">
         {lines.length === 0 && <p className="transcript__empty">Try saying “make today’s UGC”.</p>}

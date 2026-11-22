@@ -236,3 +236,6 @@ button:disabled { cursor: not-allowed; opacity: 0.5; }
 /* Single disclosure line for simulated / sample data (replaces per-item badges) */
 .demonote { margin: 0; padding: 0 4px; font-size: 12px; line-height: 1.4; color: var(--muted); }
 @media (min-width: 900px) { .demonote { grid-column: 1 / -1; } }
+
+/* Backend unreachable notice */
+.banner { margin: 0 0 12px; padding: 10px 14px; border-radius: 12px; font-size: 14px; font-weight: 500; color: #e5484d; background: color-mix(in srgb, #e5484d 12%, transparent); border: 1px solid color-mix(in srgb, #e5484d 35%, transparent); }

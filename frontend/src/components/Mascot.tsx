@@ -24,7 +24,7 @@ const LID_TOP = '#eba840' // sampled fur colour around the eyes
 const LID_BOTTOM = '#f1b450'
 const LINE = '#8c5918'
 
-export function Mascot({ size = 'lg' }: { size?: 'lg' | 'sm' }) {
+export function Mascot({ size = 'lg', starting = false }: { size?: 'lg' | 'sm'; starting?: boolean }) {
   const { status } = useConversationStatus()
   const { isSpeaking } = useConversationMode()
   const { getOutputVolume } = useConversationControls()
@@ -69,7 +69,7 @@ export function Mascot({ size = 'lg' }: { size?: 'lg' | 'sm' }) {
     return () => cancelAnimationFrame(raf.current)
   }, [talking, forceTalk, getOutputVolume])
 
-  const state = talking ? 'speaking' : status === 'connected' ? 'listening' : status === 'connecting' ? 'connecting' : 'idle'
+  const state = talking ? 'speaking' : status === 'connected' ? 'listening' : status === 'connecting' || starting ? 'connecting' : 'idle'
 
   // Open mouth shape: a rounded "D" hanging under the w.
   const mw = 26 + 28 * open // half-width

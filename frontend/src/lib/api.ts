@@ -37,11 +37,15 @@ export type BestTimes = { label: string; byHour: { hour: number; score: number }
 export const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK !== 'false'
 const BASE = '/api'
 
+/** Thrown for a 404 (e.g. a job id from the URL that the backend no longer has). Not an outage. */
+export class NotFoundError extends Error {}
+
 async function get<T>(path: string): Promise<T> {
   const res = await fetch(BASE + path, { cache: 'no-store' })
   if (!res.ok) {
     const body = await res.json().catch(() => null)
-    throw new Error(body?.error?.message || `GET ${path} -> ${res.status}`)
+    const msg = body?.error?.message || `GET ${path} -> ${res.status}`
+    throw res.status === 404 ? new NotFoundError(msg) : new Error(msg)
   }
   return res.json() as Promise<T>
 }

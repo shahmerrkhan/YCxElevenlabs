@@ -1,7 +1,7 @@
 // In-browser fake backend so the frontend runs before the real one exists.
 // Shapes come from the shared ../mocks/*.json (the contract's examples). Everything is sample data.
 // Turn off with NEXT_PUBLIC_USE_MOCK=false.
-import type { Account, BestTimes, Job, JobStatus, ScheduledPost } from './api'
+import { NotFoundError, type Account, type BestTimes, type Job, type JobStatus, type ScheduledPost } from './api'
 import accountsSeed from '../../../mocks/accounts.json'
 import bestTimesSeed from '../../../mocks/best-times.json'
 import jobSeed from '../../../mocks/get-job.json'
@@ -71,7 +71,7 @@ export const mock = {
   async getJob(id: string): Promise<Job> {
     await wait(120)
     const j = jobs.get(id)
-    if (!j) throw new Error('no such job')
+    if (!j) throw new NotFoundError('no such job')
     const status = statusOf(j)
     const has = (s: JobStatus[]) => s.includes(status)
     const ready = has(['awaiting_approval', 'posting', 'posted'])
