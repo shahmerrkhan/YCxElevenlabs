@@ -53,6 +53,9 @@ function WorkspaceInner() {
       role = 'system'
       text = text.slice(STATUS_PREFIX.length).trim()
     }
+    // ElevenLabs voice-direction tags like "[warmly]" or "[laughs]" steer the voice; don't show them
+    if (role === 'agent') text = text.replace(/\[[a-z][a-z ,'-]{0,30}\]\s*/gi, '').replace(/\s{2,}/g, ' ').trim()
+    if (!text) return
     setLines((ls) => [...ls, { role, text, id: lineId.current++ }])
   }, [])
 
